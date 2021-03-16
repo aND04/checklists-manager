@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ChecklistService } from './checklist.service';
-import { CreateChecklistDto } from './dto/create-checklist.dto';
 import { Checklist } from './schemas/checklist.schema';
 
 @Controller('checklist')
 export class ChecklistController {
-  constructor(private readonly checklistService: ChecklistService) {}
+  constructor(private readonly checklistService: ChecklistService) {
+  }
 
   @Post()
-  async create(@Body() createChecklistDto: CreateChecklistDto) {
-    await this.checklistService.create(createChecklistDto);
+  async create(@Body() checklistModel: Checklist) {
+    await this.checklistService.create(checklistModel);
   }
 
   @Get()

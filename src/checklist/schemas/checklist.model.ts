@@ -1,0 +1,53 @@
+import { Prop, Schema } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
+
+@Schema()
+export class ChecklistModel {
+  @Prop() @ApiProperty() public websiteDesignation: string;
+  @Prop() @ApiProperty() public websiteAddress: string;
+  @Prop() @ApiProperty() public entity: string;
+  @Prop() @ApiProperty() public date: Date;
+  @Prop() @ApiProperty() public lastGenIdImg: number;
+  @Prop() @ApiProperty() public lastGenIdResources: number;
+  @Prop() @ApiProperty({ type: () => [CheckboxModel] }) public checkbox: CheckboxModel[];
+}
+
+export enum EChecklistType {
+  FUNCTIONAL_ASPECTS,
+  CONTENT,
+  TRANSACTION
+}
+
+@Schema()
+export class CheckboxModel {
+  @Prop() @ApiProperty() public id: number;
+  @Prop() @ApiProperty({ enum: EChecklistType }) public type: EChecklistType;
+  @Prop() @ApiProperty({ type: () => [CheckboxItemModel] }) public items: CheckboxItemModel[];
+}
+
+export enum ECheckboxAnswer {
+  NA,
+  S,
+  N
+}
+
+@Schema()
+export class CheckboxItemModel {
+  @Prop() @ApiProperty({ enum: ECheckboxAnswer }) public checkbox: ECheckboxAnswer;
+  @Prop() @ApiProperty() public note: string;
+  @Prop() @ApiProperty({ type: () => [ResourceModel] }) public resources: ResourceModel[];
+  @Prop() @ApiProperty({ type: () => [ImageModel] }) public image: ImageModel[];
+}
+
+@Schema()
+export class ImageModel {
+  @Prop() @ApiProperty() public photoName: string;
+  @Prop() @ApiProperty() public base64: string;
+  @Prop() @ApiProperty() public identifier: number;
+}
+
+@Schema()
+export class ResourceModel {
+  @Prop() @ApiProperty() public url: string;
+  @Prop() @ApiProperty() public identifier: string;
+}
