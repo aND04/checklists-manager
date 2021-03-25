@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ChecklistModel } from './checklist.model';
+import { FormModel } from './form.model';
 import { ApiProperty } from '@nestjs/swagger';
 
 export type ChecklistDocument = Checklist & Document;
@@ -8,7 +8,7 @@ export type ChecklistDocument = Checklist & Document;
 @Schema()
 export class Checklist {
 
-  @Prop() @ApiProperty({ type: () => ChecklistModel }) checklist: ChecklistModel;
+  @Prop() @ApiProperty({ type: () => FormModel }) form: FormModel;
 
   @Prop() @ApiProperty() createdAt: Date;
 

@@ -2,14 +2,14 @@ import { Prop, Schema } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Schema()
-export class ChecklistModel {
+export class FormModel {
   @Prop() @ApiProperty() public websiteDesignation: string;
   @Prop() @ApiProperty() public websiteAddress: string;
   @Prop() @ApiProperty() public entity: string;
   @Prop() @ApiProperty() public date: Date;
   @Prop() @ApiProperty() public lastGenIdImg: number;
   @Prop() @ApiProperty() public lastGenIdResources: number;
-  @Prop() @ApiProperty({ type: () => [CheckboxModel] }) public checkbox: CheckboxModel[];
+  @Prop() @ApiProperty({ type: () => [ChecklistModel] }) public checklist: ChecklistModel[];
 }
 
 export enum EChecklistType {
@@ -19,7 +19,7 @@ export enum EChecklistType {
 }
 
 @Schema()
-export class CheckboxModel {
+export class ChecklistModel {
   @Prop() @ApiProperty() public id: number;
   @Prop() @ApiProperty({ enum: EChecklistType }) public type: EChecklistType;
   @Prop() @ApiProperty({ type: () => [CheckboxItemModel] }) public items: CheckboxItemModel[];
