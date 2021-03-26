@@ -9,11 +9,14 @@ export enum EChecklistType {
 
 @Schema()
 export class ChecklistModel {
-  @Prop() @ApiProperty() public id: number;
   @Prop() @ApiProperty({ enum: EChecklistType }) public type: EChecklistType;
   @Prop()
   @ApiProperty({ type: () => [CheckboxItemModel] })
   public items: CheckboxItemModel[];
+
+  constructor() {
+    this.items = new Array<CheckboxItemModel>();
+  }
 }
 
 export enum ECheckboxAnswer {
@@ -32,6 +35,11 @@ export class CheckboxItemModel {
   @ApiProperty({ type: () => [ResourceModel] })
   public resources: ResourceModel[];
   @Prop() @ApiProperty({ type: () => [ImageModel] }) public image: ImageModel[];
+
+  constructor() {
+    this.resources = new Array<ResourceModel>();
+    this.image = new Array<ImageModel>();
+  }
 }
 
 @Schema()
@@ -58,4 +66,8 @@ export class FormModel {
   @Prop()
   @ApiProperty({ type: () => [ChecklistModel] })
   public checklist: ChecklistModel[];
+
+  constructor() {
+    this.checklist = new Array<ChecklistModel>();
+  }
 }
