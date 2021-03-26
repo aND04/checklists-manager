@@ -7,7 +7,6 @@ export type ChecklistDocument = Checklist & Document;
 
 @Schema()
 export class Checklist {
-
   @Prop() @ApiProperty({ type: () => FormModel }) form: FormModel;
 
   @Prop() @ApiProperty() createdAt: Date;
@@ -17,12 +16,12 @@ export class Checklist {
 
 export const CHECKLIST_SCHEMA = SchemaFactory.createForClass(Checklist);
 
-CHECKLIST_SCHEMA.pre('save', function(next) {
+CHECKLIST_SCHEMA.pre('save', function (next) {
   this.set({ createdAt: Date.now() });
   next();
 });
 
-CHECKLIST_SCHEMA.pre('updateOne', function(next) {
+CHECKLIST_SCHEMA.pre('updateOne', function (next) {
   this.set({ updatedAt: Date.now() });
   next();
 });

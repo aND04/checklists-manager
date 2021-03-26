@@ -8,8 +8,7 @@ export class ChecklistService {
   constructor(
     @InjectModel(Checklist.name)
     private checklistModel: Model<ChecklistDocument>,
-  ) {
-  }
+  ) {}
 
   async create(checklistModel: Checklist): Promise<Checklist> {
     const model = new this.checklistModel(checklistModel);

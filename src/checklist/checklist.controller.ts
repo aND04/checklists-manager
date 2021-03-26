@@ -4,8 +4,7 @@ import { Checklist } from './schemas/checklist.schema';
 
 @Controller('checklist')
 export class ChecklistController {
-  constructor(private readonly checklistService: ChecklistService) {
-  }
+  constructor(private readonly checklistService: ChecklistService) {}
 
   @Post()
   async create(@Body() checklistModel: Checklist) {
