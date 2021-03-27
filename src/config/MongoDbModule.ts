@@ -22,7 +22,7 @@ class MongooseConfigService implements MongooseModuleOptions {
     ) {
       uriValue = `mongodb://root:root@localhost:27017`;
     } else {
-      uriValue = `mongodb://${this.usr}:${this.pw}@${this.host}`;
+      uriValue = `mongodb+srv://${this.usr}:${this.pw}@${this.host}/checklistManager?retryWrites=true&w=majority`;
     }
     console.log(uriValue);
     return {
