@@ -15,13 +15,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Create .env file
-        run: |
-          touch .env
-          echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env
-          echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
-          echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
-          echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
       - run: npm install
       - name: serverless deploy
         uses: serverless/github-action@master

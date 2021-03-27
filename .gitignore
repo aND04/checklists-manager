@@ -37,3 +37,4 @@ package-lock.json
 /.build/
 /.serverless/
 /cicd/docker/mongo-volume/
+.env

@@ -21,3 +21,7 @@ functions:
       - http:
           method: any
           path: /{any+}
+
+package:
+  include:
+    - .env
