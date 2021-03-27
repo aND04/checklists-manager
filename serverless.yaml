@@ -5,7 +5,7 @@ useDotenv: true
 
 plugins:
   - serverless-plugin-typescript
-  - serverless-plugin-optimize
+  #- serverless-plugin-optimize
   - serverless-offline
 
 provider:
