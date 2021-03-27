@@ -3,18 +3,6 @@ on:
     branches:
       - develop-aws
 jobs:
-
-  create-envfile:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_DATABASE_USER: ${{ secrets.DATABASE_USER }}
-          envkey_DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          envkey_DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-          envkey_DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
-
   deploy:
     name: deploy
     runs-on: ubuntu-latest
@@ -27,6 +15,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Create .env file
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          envkey_DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          envkey_DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+          envkey_DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
       - run: npm install
       - name: serverless deploy
         uses: serverless/github-action@master
