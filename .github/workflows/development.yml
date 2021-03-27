@@ -3,6 +3,18 @@ on:
     branches:
       - develop-aws
 jobs:
+
+  create-envfile:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          envkey_DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          envkey_DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+          envkey_DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+
   deploy:
     name: deploy
     runs-on: ubuntu-latest
