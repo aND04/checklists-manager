@@ -7,18 +7,26 @@ class MongooseConfigService implements MongooseModuleOptions {
   private readonly usr: string;
   private readonly pw: string;
   private readonly host: string;
-  private readonly port: number;
   constructor(private configService: ConfigService) {
     this.usr = this.configService.get<string>('DATABASE_USER');
     this.pw = this.configService.get<string>('DATABASE_PASSWORD');
     this.host = this.configService.get<string>('DATABASE_HOST');
-    this.port = this.configService.get<number>('DATABASE_PORT');
   }
 
   createMongooseOptions(): MongooseModuleOptions {
-    console.log(`mongodb://${this.usr}:${this.pw}@${this.host}:${this.port}`);
+    let uriValue;
+    if (
+      this.usr === undefined ||
+      this.pw === undefined ||
+      this.host === undefined
+    ) {
+      uriValue = `mongodb://root:root@localhost:27017`;
+    } else {
+      uriValue = `mongodb://${this.usr}:${this.pw}@${this.host}`;
+    }
+    console.log(uriValue);
     return {
-      uri: `mongodb://${this.usr}:${this.pw}@${this.host}:${this.port}`,
+      uri: uriValue,
     };
   }
 }
