@@ -1,6 +1,8 @@
 service:
   name: checklist-manager-lambda
 
+useDotenv: true
+
 plugins:
   - serverless-plugin-typescript
   - serverless-plugin-optimize
