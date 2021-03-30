@@ -9,6 +9,8 @@ export type ChecklistDocument = Checklist & Document;
 export class Checklist {
   @Prop() @ApiProperty({ type: () => FormModel }) form: FormModel;
 
+  @Prop({ default: false }) @ApiProperty() synced: boolean;
+
   @Prop() @ApiProperty() createdAt: Date;
 
   @Prop() @ApiProperty() updatedAt: Date;
