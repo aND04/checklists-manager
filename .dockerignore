@@ -1,0 +1,7 @@
+node_modules/
+.idea/
+cicd/
+dist/
+mongo-volume/
+.github/
+data/
