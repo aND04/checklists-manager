@@ -1,9 +1,10 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Injectable, Logger, Module } from '@nestjs/common';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Injectable()
 class MongooseConfigService implements MongooseModuleOptions {
+  public readonly logger = new Logger(MongooseConfigService.name);
   private readonly usr: string;
   private readonly pw: string;
   private readonly host: string;
@@ -24,7 +25,7 @@ class MongooseConfigService implements MongooseModuleOptions {
     } else {
       uriValue = `mongodb+srv://${this.usr}:${this.pw}@${this.host}/checklistManager?retryWrites=true&w=majority`;
     }
-    console.log(uriValue);
+    this.logger.log(uriValue);
     return {
       uri: uriValue,
     };
