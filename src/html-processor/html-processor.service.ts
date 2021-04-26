@@ -1,11 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { readFileSync } from 'fs';
 import { DomHandler, Parser } from 'htmlparser2';
 import {
   existsOne,
   findAll,
   findOne,
-  getChildren,
   getElementsByTagName,
   getText,
 } from 'domutils';
@@ -22,15 +20,10 @@ import { CheckboxItemModelBuilder } from '../checklist/builder/checkbox-item.bui
 @Injectable()
 export class HtmlProcessorService {
   private readonly logger = new Logger(HtmlProcessorService.name);
-  private readonly fileContent: string;
   private readonly domHandler: DomHandler;
   private readonly checklistBuilder: ChecklistBuilder;
 
   constructor() {
-    this.fileContent = readFileSync(
-      __dirname + '/../data/report.html',
-      'utf-8',
-    );
     this.domHandler = new DomHandler((error, dom) => {
       if (error) {
         this.logger.error(error.message);
@@ -42,9 +35,9 @@ export class HtmlProcessorService {
     this.checklistBuilder = new ChecklistBuilder();
   }
 
-  test(): any {
+  processReportHtml(htmlContent: string): any {
     const parser = new Parser(this.domHandler);
-    parser.write(this.fileContent);
+    parser.write(htmlContent);
     parser.end();
     return this.checklistBuilder.build();
   }
@@ -59,7 +52,7 @@ export class HtmlProcessorService {
     let id = this.updateId(sectionCount, itemCount);
     const reportType = getText(
       findOne((el) => el.name === 'title', dom),
-    ) as EReportType;
+    ).trim() as EReportType;
     this.checklistBuilder.withType(reportType);
     const checkboxItems = new Array<CheckboxItemModel>();
     while (existsOne((el) => this.containsId(el.attribs.id, id), dom)) {
@@ -129,8 +122,7 @@ export class HtmlProcessorService {
     const resources = new Array<ResourceModel>();
     if (getText(node).endsWith('Recursos da Internet: ')) {
       // TODO - html has some random blank nodes that need to be removed (.nextSibling.nextSibling === workaround)
-      const children = getChildren(node.nextSibling.nextSibling);
-      findAll((el) => el.name === 'a', children).forEach((value) => {
+      getElementsByTagName('a', node.parentNode).forEach((value) => {
         const href = value.attribs.href;
         resources.push(new ResourceModel(href, href));
       });
