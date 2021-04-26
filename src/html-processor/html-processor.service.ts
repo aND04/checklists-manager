@@ -8,7 +8,14 @@ import {
   getText,
 } from 'domutils';
 import { Node } from 'domhandler';
-import { ECheckboxReply, EItemType, EReportType } from './util/html-types.enum';
+import {
+  ECheckboxReply,
+  EItemType,
+  EReportType,
+  INTERNET_RESOURCES,
+  NOT_FILLED_FIELD,
+  UPLOADED_IMAGES,
+} from './util/html-types.enum';
 import {
   CheckboxItemModel,
   ImageModel,
@@ -98,9 +105,7 @@ export class HtmlProcessorService {
         break;
       case EItemType.NOTES:
         checkboxItemBuilder.withNote(
-          itemContent.includes('Este campo ainda não foi preenchido')
-            ? ''
-            : itemContent,
+          itemContent.includes(NOT_FILLED_FIELD) ? '' : itemContent,
         );
         break;
       case EItemType.RESOURCES:
@@ -110,7 +115,6 @@ export class HtmlProcessorService {
         this.handleImagesReply(node, checkboxItemBuilder);
         break;
       default:
-        this.logger.error('Unknown item type');
         throw Error('Unknown item type');
     }
   }
@@ -120,7 +124,7 @@ export class HtmlProcessorService {
     checkboxItemBuilder: CheckboxItemModelBuilder,
   ) {
     const resources = new Array<ResourceModel>();
-    if (getText(node).endsWith('Recursos da Internet: ')) {
+    if (getText(node).endsWith(INTERNET_RESOURCES)) {
       // TODO - html has some random blank nodes that need to be removed (.nextSibling.nextSibling === workaround)
       getElementsByTagName('a', node.parentNode).forEach((value) => {
         const href = value.attribs.href;
@@ -135,7 +139,7 @@ export class HtmlProcessorService {
     checkboxItemBuilder: CheckboxItemModelBuilder,
   ) {
     const images = new Array<ImageModel>();
-    if (getText(node).endsWith('Imagens Uploaded: ')) {
+    if (getText(node).endsWith(UPLOADED_IMAGES)) {
       getElementsByTagName('img', node.parentNode).forEach((value) =>
         images.push(new ImageModel(value.attribs.alt, value.attribs.src, 0)),
       );

@@ -16,3 +16,7 @@ export enum EReportType {
   CONTENT = 'Relatório Conteudo',
   TRANSACTION = 'Relatório Transação',
 }
+
+export const INTERNET_RESOURCES = 'Recursos da Internet: ';
+export const UPLOADED_IMAGES = 'Imagens Uploaded: ';
+export const NOT_FILLED_FIELD = 'Este campo ainda não foi preenchido';
