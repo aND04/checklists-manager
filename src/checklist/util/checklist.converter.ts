@@ -66,7 +66,7 @@ export class ChecklistConverter {
       checkboxItemModel.resources.push(
         ...this.convertToResource(resources[key]),
       );
-      checkboxItemModel.image.push(...this.convertToImage(images[key]));
+      checkboxItemModel.images.push(...this.convertToImage(images[key]));
 
       checklistModel.items.push(checkboxItemModel);
     });
@@ -76,11 +76,11 @@ export class ChecklistConverter {
   private static evalCheckbox(checkboxStringValue: string): ECheckboxAnswer {
     switch (checkboxStringValue) {
       case 'N':
-        return ECheckboxAnswer.N;
+        return ECheckboxAnswer.NO;
       case 'NA':
         return ECheckboxAnswer.NA;
       case 'S':
-        return ECheckboxAnswer.S;
+        return ECheckboxAnswer.YES;
     }
   }
 
