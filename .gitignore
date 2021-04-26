@@ -36,5 +36,5 @@ lerna-debug.log*
 package-lock.json
 /.build/
 /.serverless/
-/mongo-volume/
+/cicd/mongo-volume/
 .env
