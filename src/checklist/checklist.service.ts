@@ -1,23 +1,18 @@
-import { HttpService, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Checklist, ChecklistDocument } from './schemas/checklist.schema';
 import { Model } from 'mongoose';
-import { ConfigService } from '@nestjs/config';
-import { map } from 'rxjs/operators';
 import { ChecklistSync } from './dto/checklist-sync.dto';
+import { MonitorServerService } from '../shared/services/monitor-server.service';
 
 @Injectable()
 export class ChecklistService {
-  private readonly monitorServerUrl: string;
   private readonly logger = new Logger(ChecklistService.name);
   constructor(
     @InjectModel(Checklist.name)
     private checklistModel: Model<ChecklistDocument>,
-    private configService: ConfigService,
-    private http: HttpService,
-  ) {
-    this.monitorServerUrl = this.configService.get<string>('MS_SERVER_URL');
-  }
+    private monitorServerService: MonitorServerService,
+  ) {}
 
   async create(checklistModel: Checklist): Promise<Checklist> {
     this.logger.log('Request to create a new checklist');
@@ -50,13 +45,10 @@ export class ChecklistService {
         false,
         checklist.createdAt,
       );
-      const answer = await this.http
-        .post<IAccEvalSyncAnswer>(
-          `${this.monitorServerUrl}/usability-evaluation-request/sync`,
-          checklistSync,
-        )
-        .pipe(map((ans) => ans.data))
-        .toPromise();
+      const answer = await this.monitorServerService.post<
+        ChecklistSync,
+        IAccEvalSyncAnswer
+      >('usability-evaluation-request/sync', checklistSync);
       if (answer.status === EAccEvalRequestStatus.SUCCESS) {
         this.logger.log('Synced complete');
         checklist.synced = true;

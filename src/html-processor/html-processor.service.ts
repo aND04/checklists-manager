@@ -125,7 +125,6 @@ export class HtmlProcessorService {
   ) {
     const resources = new Array<ResourceModel>();
     if (getText(node).endsWith(INTERNET_RESOURCES)) {
-      // TODO - html has some random blank nodes that need to be removed (.nextSibling.nextSibling === workaround)
       getElementsByTagName('a', node.parentNode).forEach((value) => {
         const href = value.attribs.href;
         resources.push(new ResourceModel(href, href));
