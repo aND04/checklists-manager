@@ -23,7 +23,7 @@ export class ChecklistConverter {
     form.lastGenIdImg = input.lastGenIdImg;
     form.lastGenIdResources = input.lastGenIdResources;
 
-    form.checklist.push(
+    form.checklists.push(
       this.convertToCheckListModel(
         input.checkboxes_10_func_asp,
         input.images_10_func_asp,

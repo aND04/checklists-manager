@@ -38,3 +38,4 @@ package-lock.json
 /.serverless/
 /cicd/mongo-volume/
 .env
+/mongo-volume/

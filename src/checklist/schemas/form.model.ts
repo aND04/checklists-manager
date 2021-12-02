@@ -68,7 +68,6 @@ export class CheckboxItemModel implements ICheckboxItemModel {
 
 @Schema()
 export class ImageModel {
-  // TODO what is an identifier ?
   @Prop() @ApiProperty() public photoName: string;
   @Prop() @ApiProperty() public base64: string;
   @Prop() @ApiProperty() public identifier: number;
@@ -82,7 +81,6 @@ export class ImageModel {
 
 @Schema()
 export class ResourceModel {
-  // TODO what is the difference between both?
   @Prop() @ApiProperty() public url: string;
   @Prop() @ApiProperty() public identifier: string;
 
@@ -102,9 +100,9 @@ export class FormModel {
   @Prop() @ApiProperty() public lastGenIdResources: number;
   @Prop()
   @ApiProperty({ type: () => [ChecklistModel] })
-  public checklist: ChecklistModel[];
+  public checklists: ChecklistModel[];
 
   constructor() {
-    this.checklist = new Array<ChecklistModel>();
+    this.checklists = new Array<ChecklistModel>();
   }
 }

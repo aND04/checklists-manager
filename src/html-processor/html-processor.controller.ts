@@ -2,6 +2,9 @@ import { Controller, Get, HttpService, Logger } from '@nestjs/common';
 import { HtmlProcessorService } from './html-processor.service';
 import { ChecklistModel } from '../checklist/schemas/form.model';
 
+/**
+ * @deprecated just for testing purposes
+ */
 @Controller('html-processor')
 export class HtmlProcessorController {
   private readonly logger = new Logger(HtmlProcessorController.name);
@@ -15,7 +18,7 @@ export class HtmlProcessorController {
     this.logger.log('REST Request to test html-service');
     const html = await this.httpService
       .get<string>(
-        'https://report-data-html-masters.s3-eu-west-1.amazonaws.com/report.html',
+        'https://report-data-html-masters.s3.eu-west-1.amazonaws.com/conteudo.html',
       )
       .toPromise();
     return this.htmlProcessorService.processReportHtml(html.data);

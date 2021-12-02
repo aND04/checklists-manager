@@ -5,7 +5,7 @@ import {
   findAll,
   findOne,
   getElementsByTagName,
-  getText,
+  textContent,
 } from 'domutils';
 import { Node } from 'domhandler';
 import {
@@ -17,7 +17,7 @@ import {
   UPLOADED_IMAGES,
 } from './util/html-types.enum';
 import {
-  CheckboxItemModel,
+  CheckboxItemModel, IChecklistModel,
   ImageModel,
   ResourceModel,
 } from '../checklist/schemas/form.model';
@@ -27,22 +27,12 @@ import { CheckboxItemModelBuilder } from '../checklist/builder/checkbox-item.bui
 @Injectable()
 export class HtmlProcessorService {
   private readonly logger = new Logger(HtmlProcessorService.name);
-  private readonly domHandler: DomHandler;
-  private readonly checklistBuilder: ChecklistBuilder;
+  private domHandler: DomHandler;
+  private checklistBuilder: ChecklistBuilder;
 
-  constructor() {
-    this.domHandler = new DomHandler((error, dom) => {
-      if (error) {
-        this.logger.error(error.message);
-        throw Error(error.message);
-      } else {
-        this.computeList(dom);
-      }
-    });
+  processReportHtml(htmlContent: string): IChecklistModel {
     this.checklistBuilder = new ChecklistBuilder();
-  }
-
-  processReportHtml(htmlContent: string): any {
+    this.initDomHandler();
     const parser = new Parser(this.domHandler);
     parser.write(htmlContent);
     parser.end();
@@ -57,7 +47,7 @@ export class HtmlProcessorService {
     let sectionCount = 1;
     let itemCount = 1;
     let id = this.updateId(sectionCount, itemCount);
-    const reportType = getText(
+    const reportType = textContent(
       findOne((el) => el.name === 'title', dom),
     ).trim() as EReportType;
     this.checklistBuilder.withType(reportType);
@@ -68,7 +58,7 @@ export class HtmlProcessorService {
         id = this.updateId(sectionCount, itemCount);
         const items = findAll((el) => this.containsId(el.attribs.id, id), dom);
         if (items.length > 0) {
-          this.logger.log(`Parsing content for item with id: ${id}`);
+          // this.logger.log(`Parsing content for item with id: ${id}`);
           const checkboxItemBuilder = new CheckboxItemModelBuilder();
           checkboxItemBuilder.withIdentifier(id);
           items.forEach((item) => {
@@ -95,7 +85,7 @@ export class HtmlProcessorService {
     node: Node,
     checkboxItemBuilder: CheckboxItemModelBuilder,
   ): void {
-    const content = getText(node);
+    const content = textContent(node);
     const splitContent = content.split(':');
     const itemType = splitContent[0];
     const itemContent = splitContent[1];
@@ -124,7 +114,7 @@ export class HtmlProcessorService {
     checkboxItemBuilder: CheckboxItemModelBuilder,
   ) {
     const resources = new Array<ResourceModel>();
-    if (getText(node).endsWith(INTERNET_RESOURCES)) {
+    if (textContent(node).endsWith(INTERNET_RESOURCES)) {
       getElementsByTagName('a', node.parentNode).forEach((value) => {
         const href = value.attribs.href;
         resources.push(new ResourceModel(href, href));
@@ -138,11 +128,22 @@ export class HtmlProcessorService {
     checkboxItemBuilder: CheckboxItemModelBuilder,
   ) {
     const images = new Array<ImageModel>();
-    if (getText(node).endsWith(UPLOADED_IMAGES)) {
+    if (textContent(node).endsWith(UPLOADED_IMAGES)) {
       getElementsByTagName('img', node.parentNode).forEach((value) =>
         images.push(new ImageModel(value.attribs.alt, value.attribs.src, 0)),
       );
     }
     checkboxItemBuilder.withImages(images);
+  }
+
+  private initDomHandler(): void {
+    this.domHandler = new DomHandler((error, dom) => {
+      if (error) {
+        this.logger.error(error.message);
+        throw Error(error.message);
+      } else {
+        this.computeList(dom);
+      }
+    });
   }
 }

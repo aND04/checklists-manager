@@ -9,7 +9,9 @@ export type ChecklistDocument = Checklist & Document;
 export class Checklist {
   @Prop() @ApiProperty({ type: () => FormModel }) form: FormModel;
 
-  @Prop({ default: false }) @ApiProperty() synced: boolean;
+  @Prop() @ApiProperty() pageId: number;
+
+  @Prop() @ApiProperty() monitorServerId: number;
 
   @Prop() @ApiProperty() createdAt: Date;
 

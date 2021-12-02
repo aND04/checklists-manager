@@ -12,3 +12,4 @@ db.createUser({
 db = new Mongo().getDb('checklist_manager');
 
 db.createCollection('checklist');
+db.createCollection('declaration-sync')

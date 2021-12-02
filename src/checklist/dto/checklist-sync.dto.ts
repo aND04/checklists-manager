@@ -1,13 +1,11 @@
-export class ChecklistSync {
-  constructor(
-    public userId: number,
-    public checklistUuid: string,
-    public processed: boolean,
-    public createdAt: Date,
-  ) {
-    this.userId = userId;
-    this.checklistUuid = checklistUuid;
-    this.processed = processed;
-    this.createdAt = createdAt;
-  }
+export interface UsabilityDeclarationSync {
+  id: number;
+  pageId: number;
+  urls: string;
+}
+
+export interface UsabilityDeclarationCompliance {
+  functionalAspects: number
+  content: number
+  transaction: number
 }

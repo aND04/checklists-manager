@@ -6,5 +6,6 @@ import { HtmlProcessorController } from './html-processor.controller';
   imports: [HttpModule],
   controllers: [HtmlProcessorController],
   providers: [HtmlProcessorService],
+  exports: [HtmlProcessorService]
 })
 export class HtmlProcessorModule {}

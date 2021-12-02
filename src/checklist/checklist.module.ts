@@ -4,7 +4,8 @@ import { Checklist, CHECKLIST_SCHEMA } from './schemas/checklist.schema';
 import { ChecklistService } from './checklist.service';
 import { ChecklistController } from './checklist.controller';
 import { ConfigModule } from '@nestjs/config';
-import { SharedModule } from '../shared/shared.module';
+import { HttpModule } from '@nestjs/axios';
+import { HtmlProcessorModule } from '../html-processor/html-processor.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { SharedModule } from '../shared/shared.module';
       { name: Checklist.name, schema: CHECKLIST_SCHEMA },
     ]),
     ConfigModule,
-    SharedModule,
+    HttpModule,
+    HtmlProcessorModule,
   ],
   controllers: [ChecklistController],
   providers: [ChecklistService],

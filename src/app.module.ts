@@ -5,7 +5,7 @@ import { MongoDbModule } from './config/mongoose-config.service';
 import { ChecklistModule } from './checklist/checklist.module';
 import { ConfigModule } from '@nestjs/config';
 import { HtmlProcessorModule } from './html-processor/html-processor.module';
-import { UsabilityDeclarationModule } from './usability-declaration/usability-declaration.module';
+import { StatisticsModule } from './statistics/statistics.module'
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { UsabilityDeclarationModule } from './usability-declaration/usability-de
     ChecklistModule,
     ConfigModule.forRoot(),
     HtmlProcessorModule,
-    UsabilityDeclarationModule,
+    StatisticsModule
   ],
   controllers: [AppController],
   providers: [AppService],
